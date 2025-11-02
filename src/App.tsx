@@ -8,29 +8,42 @@ import Certificate from "./components/Certificate";
 
 export default function App() {
   const [stage, setStage] = useState<"quiz" | "room" | "certificate" | "done">("quiz");
-  const [score, setScore] = useState(0);
+ const [, setScore] = useState(0);      // or: const _score = useRef(0)
 
-  // --- QUIZ ---
-  if (stage === "quiz") {
-    return (
-      <Quiz
-        onComplete={(finalScore: number) => {
-          setScore(finalScore);
-          setStage("room");
-        }}
-      />
-    );
-  }
+if (stage === "quiz") {
+  return (
+    <Quiz
+      onComplete={(finalScore) => {
+        setScore(finalScore);
+        setStage("room");
+      }}
+    />
+  );
+}
 
-  // --- DOCTOR'S OFFICE ROOM ---
-  if (stage === "room") {
-    return <DoctorOfficeRoom onFinish={() => setStage("certificate")} />;
-  }
 
-  // --- CERTIFICATE ---
-  if (stage === "certificate") {
-    return <Certificate onDone={() => setStage("done")} />;
-  }
+if (stage === "room") {
+  return <DoctorOfficeRoom onFinish={() => setStage("certificate")} />;
+}
+
+
+if (stage === "certificate") {
+  return <Certificate onDone={() => setStage("done")} />;
+}
+
+if (stage === "done") {
+  return (
+    <div className="min-h-screen bg-slate-100 p-6">
+      <div className="mx-auto max-w-2xl bg-white rounded-2xl shadow p-6 text-center">
+        <h1 className="text-2xl font-bold mb-2">Great job!</h1>
+        <p className="text-slate-700">
+          You’ve completed the Doctor’s Office level.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 
   // --- DONE (simple end screen fallback) ---
   return (
